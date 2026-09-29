@@ -13,7 +13,7 @@ station search, favorites and auto-refresh. No API keys are needed.
 | ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | <img src="docs/screenshot-light.png" width="260" alt="Hoboken PATH board in light mode"> | <img src="docs/screenshot-dark.png" width="260" alt="14 St-Union Sq subway board in dark mode"> |
 
-Screenshots were captured from live data by `scripts/screenshot.ts` on 2026-09-28 around 8:30 PM ET.
+Screenshots were captured from live data by `scripts/screenshot.ts` on 2026-09-28 around 8:36 PM ET.
 
 ## Results
 
