@@ -72,6 +72,22 @@ test("favorites persist across reloads", async ({ page }) => {
   ).toHaveText(["14 St-Union Sq"]);
 });
 
+test("says which lines are missing instead of claiming there are no trains", async ({ page }) => {
+  await page.route("**/api/arrivals/*", async (route) => {
+    await route.fulfill({
+      json: {
+        ...board("subway-602", "14 St-Union Sq"),
+        arrivals: [],
+        unavailableRoutes: ["L"],
+        warnings: ["L feed unavailable."],
+      },
+    });
+  });
+  await page.goto("/?station=subway-602");
+  await expect(page.getByText("No live data for L trains right now")).toBeVisible();
+  await expect(page.getByText("No trains predicted in the next hour.")).toHaveCount(0);
+});
+
 test("shows an error with a working retry when the API fails", async ({ page }) => {
   let calls = 0;
   await page.route("**/api/arrivals/*", async (route) => {
