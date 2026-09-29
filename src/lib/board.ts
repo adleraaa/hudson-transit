@@ -16,7 +16,7 @@ export type BoardDeps = {
 export class BoardUnavailableError extends Error {}
 
 const HORIZON_MS = 60 * 60_000;
-const MAX_PER_DIRECTION = 8;
+const MAX_PER_DIRECTION = 6;
 const DEPARTED_GRACE_MS = 30_000;
 
 function feedLabel(feed: MtaFeed): string {

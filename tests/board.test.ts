@@ -45,14 +45,14 @@ describe("buildBoard", () => {
     expect(board.dataAsOf).toBe(NOW - 5_000);
   });
 
-  it("caps each direction at 8 trains within the next hour", async () => {
+  it("caps each direction at 6 trains within the next hour", async () => {
     const board = (await buildBoard("subway-602", deps()))!;
     const counts = new Map<string, number>();
     for (const a of board.arrivals) {
       counts.set(a.direction, (counts.get(a.direction) ?? 0) + 1);
       expect(a.arrivalTime).toBeLessThanOrEqual(NOW + 60 * 60_000);
     }
-    expect(Math.max(...counts.values())).toBeLessThanOrEqual(8);
+    expect(Math.max(...counts.values())).toBeLessThanOrEqual(6);
   });
 
   it("marks the board stale when served from cache after an upstream error", async () => {
