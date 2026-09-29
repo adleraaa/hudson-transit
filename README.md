@@ -9,6 +9,8 @@ GTFS-realtime protobuf feeds keyed by platform ids like `127N`. This app normali
 zod-validated `Arrival` schema on the server, caches it briefly, and renders one mobile-first board with
 station search, favorites and auto-refresh. No API keys are needed.
 
+Live: https://hudson-transit.vercel.app (Vercel, Hobby plan, deployed from `main`).
+
 | Light (PATH, Hoboken)                                                                    | Dark (Subway, 14 St-Union Sq)                                                                   |
 | ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | <img src="docs/screenshot-light.png" width="260" alt="Hoboken PATH board in light mode"> | <img src="docs/screenshot-dark.png" width="260" alt="14 St-Union Sq subway board in dark mode"> |
@@ -143,8 +145,6 @@ home connection in Hoboken, Node 24). Full output, including per-feed fetch time
 - Trains that terminate at the selected station are hidden (you cannot board them). Destinations use
   the last stop the feed lists, which during reroutes can differ from the train's signed destination.
 - PATH line names are derived from the four published line colors; an unknown color shows as "PATH".
-- Not yet deployed. The app builds with no environment variables and is intended for Vercel; the
-  Vercel import is pending.
 
 ## Data sources and terms
 
