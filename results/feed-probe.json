@@ -6,83 +6,127 @@
     {
       "feed": "PATH",
       "okRounds": "3/3",
-      "medianKB": 9.7,
-      "medianFetchMs": 83,
-      "medianDecodeMs": 1.7
+      "medianKiB": 9.7,
+      "medianFetchMs": 77,
+      "medianDecodeMs": 0.6,
+      "ageSeconds": [
+        49,
+        70,
+        36
+      ]
     },
     {
       "feed": "1234567S",
       "okRounds": "3/3",
-      "medianKB": 176.5,
-      "medianFetchMs": 143,
-      "medianDecodeMs": 18
+      "medianKiB": 179.1,
+      "medianFetchMs": 81,
+      "medianDecodeMs": 9.8,
+      "ageSeconds": [
+        5,
+        5,
+        5
+      ]
     },
     {
       "feed": "ACE",
       "okRounds": "3/3",
-      "medianKB": 101,
-      "medianFetchMs": 91,
-      "medianDecodeMs": 5.8
+      "medianKiB": 94.3,
+      "medianFetchMs": 72,
+      "medianDecodeMs": 2.4,
+      "ageSeconds": [
+        12,
+        3,
+        9
+      ]
     },
     {
       "feed": "BDFM",
       "okRounds": "3/3",
-      "medianKB": 123.9,
-      "medianFetchMs": 63,
-      "medianDecodeMs": 10.1
+      "medianKiB": 113,
+      "medianFetchMs": 51,
+      "medianDecodeMs": 3.3,
+      "ageSeconds": [
+        3,
+        9,
+        0
+      ]
     },
     {
       "feed": "G",
       "okRounds": "3/3",
-      "medianKB": 18.6,
-      "medianFetchMs": 61,
-      "medianDecodeMs": 0.7
+      "medianKiB": 17.1,
+      "medianFetchMs": 42,
+      "medianDecodeMs": 0.3,
+      "ageSeconds": [
+        4,
+        10,
+        1
+      ]
     },
     {
       "feed": "JZ",
       "okRounds": "3/3",
-      "medianKB": 23.6,
-      "medianFetchMs": 53,
-      "medianDecodeMs": 1
+      "medianKiB": 21.8,
+      "medianFetchMs": 45,
+      "medianDecodeMs": 0.3,
+      "ageSeconds": [
+        4,
+        10,
+        1
+      ]
     },
     {
       "feed": "NQRW",
       "okRounds": "3/3",
-      "medianKB": 108.1,
-      "medianFetchMs": 53,
-      "medianDecodeMs": 5
+      "medianKiB": 103.6,
+      "medianFetchMs": 57,
+      "medianDecodeMs": 1.3,
+      "ageSeconds": [
+        3,
+        9,
+        0
+      ]
     },
     {
       "feed": "L",
       "okRounds": "3/3",
-      "medianKB": 29.9,
-      "medianFetchMs": 54,
-      "medianDecodeMs": 3.8
+      "medianKiB": 30,
+      "medianFetchMs": 44,
+      "medianDecodeMs": 1.4,
+      "ageSeconds": [
+        0,
+        1,
+        7
+      ]
     },
     {
       "feed": "SI",
       "okRounds": "3/3",
-      "medianKB": 6.4,
-      "medianFetchMs": 44,
-      "medianDecodeMs": 0.5
+      "medianKiB": 5.1,
+      "medianFetchMs": 45,
+      "medianDecodeMs": 0.1,
+      "ageSeconds": [
+        3,
+        9,
+        0
+      ]
     }
   ],
   "pathStations": 13,
   "subwayComplexes": 445,
   "perRound": [
     {
-      "at": "2026-09-29T00:32:04.434Z",
+      "at": "2026-09-29T00:53:36.602Z",
       "pathStationsWithTrains": 13,
       "complexesWithTrains": 445,
-      "stopRefs": 14423,
-      "unresolvedRefs": 105,
+      "stopRefs": 13845,
+      "unresolvedRefs": 97,
       "unresolvedIds": [
         "A29S",
         "A39S",
         "A58S",
         "A62S",
         "B05N",
-        "B05S",
         "H19N",
         "H19S",
         "M17N",
@@ -91,21 +135,26 @@
         "R65N",
         "R65S"
       ],
-      "allStationsMs": 357
+      "allStationsMs": 108,
+      "hiddenByOldCap": 24,
+      "hiddenByTrim": 0,
+      "hiddenAt611": [
+        "3",
+        "R"
+      ]
     },
     {
-      "at": "2026-09-29T00:32:25.661Z",
+      "at": "2026-09-29T00:53:57.561Z",
       "pathStationsWithTrains": 13,
       "complexesWithTrains": 445,
-      "stopRefs": 14308,
-      "unresolvedRefs": 104,
+      "stopRefs": 13794,
+      "unresolvedRefs": 98,
       "unresolvedIds": [
         "A29S",
         "A39S",
         "A58S",
         "A62S",
         "B05N",
-        "B05S",
         "H19N",
         "H19S",
         "M17N",
@@ -114,21 +163,27 @@
         "R65N",
         "R65S"
       ],
-      "allStationsMs": 311
+      "allStationsMs": 102,
+      "hiddenByOldCap": 26,
+      "hiddenByTrim": 0,
+      "hiddenAt611": [
+        "3",
+        "Q",
+        "R"
+      ]
     },
     {
-      "at": "2026-09-29T00:32:46.804Z",
+      "at": "2026-09-29T00:54:18.461Z",
       "pathStationsWithTrains": 13,
       "complexesWithTrains": 445,
-      "stopRefs": 14293,
-      "unresolvedRefs": 104,
+      "stopRefs": 13789,
+      "unresolvedRefs": 98,
       "unresolvedIds": [
         "A29S",
         "A39S",
         "A58S",
         "A62S",
         "B05N",
-        "B05S",
         "H19N",
         "H19S",
         "M17N",
@@ -137,7 +192,14 @@
         "R65N",
         "R65S"
       ],
-      "allStationsMs": 238
+      "allStationsMs": 239,
+      "hiddenByOldCap": 27,
+      "hiddenByTrim": 0,
+      "hiddenAt611": [
+        "C",
+        "Q",
+        "R"
+      ]
     }
   ]
 }
