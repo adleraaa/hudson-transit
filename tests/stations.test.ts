@@ -36,6 +36,23 @@ describe("searchStations", () => {
     expect(results.map((s) => s.name)).toEqual(["14 St-Union Sq"]);
   });
 
+  it("matches hyphenated PATH line names as whole words", () => {
+    const ids = (q: string) => searchStations(q, undefined, 20).map((s) => s.id);
+    expect(ids("hob-33")).toEqual(expect.arrayContaining(["path-HOB", "path-33S"]));
+    expect(ids("HOB-33")).toEqual(ids("hob-33"));
+    expect(ids("hob-33").every((id) => id.startsWith("path-"))).toBe(true);
+    expect(ids("nwk-wtc")).toEqual(expect.arrayContaining(["path-NWK", "path-WTC", "path-JSQ"]));
+  });
+
+  it("finds PATH stations by their station code", () => {
+    expect(searchStations("jsq")[0]?.id).toBe("path-JSQ");
+    expect(searchStations("GRV")[0]?.id).toBe("path-GRV");
+  });
+
+  it("still splits hyphenated name words", () => {
+    expect(searchStations("times sq-42")[0]?.name).toMatch(/^Times Sq-42 St/);
+  });
+
   it("requires every word to match and respects the limit", () => {
     expect(searchStations("hoboken nowhere")).toEqual([]);
     expect(searchStations("   ")).toEqual([]);

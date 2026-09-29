@@ -51,34 +51,44 @@ export function normalize(text: string): string {
     .trim();
 }
 
-function tokens(text: string): string[] {
-  return normalize(text).split(" ").filter(Boolean);
+/** Lowercase letters and digits only: "HOB-33" -> "hob33", "JSQ" -> "jsq". */
+function compact(text: string): string {
+  return text.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
 /**
- * Ranks stations for the search box. Every query word must match either the start of a
- * word in the station name or one of its routes ("a", "7", "hob-33"). Prefix-of-name
- * matches rank first so typing "hob" puts Hoboken above "Hoyt-Schermerhorn".
+ * Whole-word search keys besides the name: route labels ("a", "7", "hob33") and, for PATH,
+ * the station code riders see on signs and timetables ("jsq", "wtc", "33s").
+ */
+function keywordsOf(station: Station): Set<string> {
+  const keys = station.routes.map(compact);
+  if (station.system === "PATH") keys.push(compact(station.id.slice("path-".length)));
+  return new Set(keys);
+}
+
+/**
+ * Ranks stations for the search box. Each whitespace-separated query word must either be a
+ * route or PATH-code keyword ("a", "hob-33", "jsq") or have every piece match the start of a
+ * word in the station name ("14th", "sq-42"). Prefix-of-name matches rank first so typing
+ * "hob" puts Hoboken above "Hoyt-Schermerhorn".
  */
 export function searchStations(query: string, stations = ALL_STATIONS, limit = 8): Station[] {
-  const q = tokens(query);
-  if (q.length === 0) return [];
-  const fullQuery = q.join(" ");
+  const words = query.split(/\s+/).filter((w) => compact(w) !== "");
+  if (words.length === 0) return [];
+  const fullQuery = normalize(query);
 
   const scored: { station: Station; score: number }[] = [];
   for (const station of stations) {
     const nameNorm = normalize(station.name);
     const nameTokens = nameNorm.split(" ");
-    const routeTokens = station.routes.map((r) => normalize(r));
-    const allMatch = q.every(
-      (t) => nameTokens.some((n) => n.startsWith(t)) || routeTokens.includes(t),
-    );
-    if (!allMatch) continue;
-    const score = nameNorm.startsWith(fullQuery)
-      ? 0
-      : q.some((t) => routeTokens.includes(t))
-        ? 2
-        : 1;
+    const keywords = keywordsOf(station);
+    const byKeyword = (w: string) => keywords.has(compact(w));
+    const byName = (w: string) =>
+      normalize(w)
+        .split(" ")
+        .every((piece) => nameTokens.some((n) => n.startsWith(piece)));
+    if (!words.every((w) => byKeyword(w) || byName(w))) continue;
+    const score = nameNorm.startsWith(fullQuery) ? 0 : words.some(byKeyword) ? 2 : 1;
     scored.push({ station, score });
   }
 
