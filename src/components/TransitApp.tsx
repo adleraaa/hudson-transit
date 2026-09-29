@@ -92,8 +92,10 @@ export function TransitApp() {
       )}
 
       <footer className="app-footer">
-        Data: Port Authority of NY &amp; NJ (PATH) and MTA (NYC Subway) real-time feeds. Times shown
-        in New York time. Not affiliated with either agency.
+        Data from Port Authority of NY &amp; NJ (PATH) and MTA (NYC Subway) real-time feeds, relayed
+        through this site&apos;s server. Predictions may be delayed, incomplete or inaccurate;
+        &quot;Cached data&quot; means they may not be real time. Times are New York time. Not
+        affiliated with or endorsed by either agency.
       </footer>
     </main>
   );

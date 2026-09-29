@@ -1,0 +1,143 @@
+{
+  "generatedBy": "scripts/probe-feeds.ts",
+  "machine": "Intel(R) Core(TM) i9-14900HX / win32 / Node v24.14.0",
+  "rounds": 3,
+  "perFeed": [
+    {
+      "feed": "PATH",
+      "okRounds": "3/3",
+      "medianKB": 9.7,
+      "medianFetchMs": 83,
+      "medianDecodeMs": 1.7
+    },
+    {
+      "feed": "1234567S",
+      "okRounds": "3/3",
+      "medianKB": 176.5,
+      "medianFetchMs": 143,
+      "medianDecodeMs": 18
+    },
+    {
+      "feed": "ACE",
+      "okRounds": "3/3",
+      "medianKB": 101,
+      "medianFetchMs": 91,
+      "medianDecodeMs": 5.8
+    },
+    {
+      "feed": "BDFM",
+      "okRounds": "3/3",
+      "medianKB": 123.9,
+      "medianFetchMs": 63,
+      "medianDecodeMs": 10.1
+    },
+    {
+      "feed": "G",
+      "okRounds": "3/3",
+      "medianKB": 18.6,
+      "medianFetchMs": 61,
+      "medianDecodeMs": 0.7
+    },
+    {
+      "feed": "JZ",
+      "okRounds": "3/3",
+      "medianKB": 23.6,
+      "medianFetchMs": 53,
+      "medianDecodeMs": 1
+    },
+    {
+      "feed": "NQRW",
+      "okRounds": "3/3",
+      "medianKB": 108.1,
+      "medianFetchMs": 53,
+      "medianDecodeMs": 5
+    },
+    {
+      "feed": "L",
+      "okRounds": "3/3",
+      "medianKB": 29.9,
+      "medianFetchMs": 54,
+      "medianDecodeMs": 3.8
+    },
+    {
+      "feed": "SI",
+      "okRounds": "3/3",
+      "medianKB": 6.4,
+      "medianFetchMs": 44,
+      "medianDecodeMs": 0.5
+    }
+  ],
+  "pathStations": 13,
+  "subwayComplexes": 445,
+  "perRound": [
+    {
+      "at": "2026-09-29T00:32:04.434Z",
+      "pathStationsWithTrains": 13,
+      "complexesWithTrains": 445,
+      "stopRefs": 14423,
+      "unresolvedRefs": 105,
+      "unresolvedIds": [
+        "A29S",
+        "A39S",
+        "A58S",
+        "A62S",
+        "B05N",
+        "B05S",
+        "H19N",
+        "H19S",
+        "M17N",
+        "R60N",
+        "R60S",
+        "R65N",
+        "R65S"
+      ],
+      "allStationsMs": 357
+    },
+    {
+      "at": "2026-09-29T00:32:25.661Z",
+      "pathStationsWithTrains": 13,
+      "complexesWithTrains": 445,
+      "stopRefs": 14308,
+      "unresolvedRefs": 104,
+      "unresolvedIds": [
+        "A29S",
+        "A39S",
+        "A58S",
+        "A62S",
+        "B05N",
+        "B05S",
+        "H19N",
+        "H19S",
+        "M17N",
+        "R60N",
+        "R60S",
+        "R65N",
+        "R65S"
+      ],
+      "allStationsMs": 311
+    },
+    {
+      "at": "2026-09-29T00:32:46.804Z",
+      "pathStationsWithTrains": 13,
+      "complexesWithTrains": 445,
+      "stopRefs": 14293,
+      "unresolvedRefs": 104,
+      "unresolvedIds": [
+        "A29S",
+        "A39S",
+        "A58S",
+        "A62S",
+        "B05N",
+        "B05S",
+        "H19N",
+        "H19S",
+        "M17N",
+        "R60N",
+        "R60S",
+        "R65N",
+        "R65S"
+      ],
+      "allStationsMs": 238
+    }
+  ]
+}
