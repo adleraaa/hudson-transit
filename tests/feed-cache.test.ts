@@ -52,6 +52,7 @@ describe("createFeedCache", () => {
     load.mockRejectedValueOnce(new Error("down"));
     await expect(get()).rejects.toThrow("down");
 
+    advance(20_000); // past the failure backoff
     load.mockResolvedValueOnce("v1");
     await get();
     advance(120_001);
@@ -59,7 +60,7 @@ describe("createFeedCache", () => {
     await expect(get()).rejects.toThrow("still down");
   });
 
-  it("recovers and clears the stale flag once upstream is back", async () => {
+  it("backs off for one TTL after a failure, then recovers and clears the stale flag", async () => {
     const { get, load, advance } = setup();
     load
       .mockResolvedValueOnce("v1")
@@ -68,8 +69,25 @@ describe("createFeedCache", () => {
     await get();
     advance(30_000);
     expect((await get()).stale).toBe(true);
-    // A failed refresh does not extend the TTL, so the very next call retries upstream.
-    const next = await get();
-    expect(next).toMatchObject({ value: "v2", stale: false });
+    expect(load).toHaveBeenCalledTimes(2);
+
+    // Within the backoff window the stale value is served without calling upstream again,
+    // so a hung upstream does not make every request wait for the fetch timeout.
+    advance(19_999);
+    expect(await get()).toMatchObject({ value: "v1", stale: true, error: "x" });
+    expect(load).toHaveBeenCalledTimes(2);
+
+    advance(1);
+    expect(await get()).toMatchObject({ value: "v2", stale: false });
+    expect(load).toHaveBeenCalledTimes(3);
+  });
+
+  it("does not wait on upstream again during backoff when there is nothing cached", async () => {
+    const { get, load, advance } = setup();
+    load.mockRejectedValueOnce(new Error("down"));
+    await expect(get()).rejects.toThrow("down");
+    advance(5_000);
+    await expect(get()).rejects.toThrow("down");
+    expect(load).toHaveBeenCalledTimes(1);
   });
 });

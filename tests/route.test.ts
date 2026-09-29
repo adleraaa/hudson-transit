@@ -9,9 +9,10 @@ const feeds = vi.hoisted(() => ({
 vi.mock("@/lib/feeds", () => feeds);
 
 const { GET } = await import("@/app/api/arrivals/[stationId]/route");
+const { readPathFeed } = await import("@/lib/path");
 
-const pathJson: unknown = JSON.parse(
-  readFileSync(new URL("./fixtures/ridepath.json", import.meta.url), "utf8"),
+const pathJson = readPathFeed(
+  JSON.parse(readFileSync(new URL("./fixtures/ridepath.json", import.meta.url), "utf8")),
 );
 
 function call(stationId: string) {

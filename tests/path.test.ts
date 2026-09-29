@@ -1,11 +1,12 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { parsePathFeed, parsePathTimestamp, PATH_STATIONS } from "@/lib/path";
+import { parsePathFeed, parsePathTimestamp, PATH_STATIONS, readPathFeed } from "@/lib/path";
 import { ArrivalSchema } from "@/lib/schema";
 
-const fixture: unknown = JSON.parse(
+const rawFixture: unknown = JSON.parse(
   readFileSync(new URL("./fixtures/ridepath.json", import.meta.url), "utf8"),
 );
+const fixture = readPathFeed(rawFixture);
 
 function feedWith(messages: unknown[], label = "ToNY") {
   return {
@@ -58,7 +59,7 @@ describe("parsePathFeed on the recorded snapshot", () => {
   });
 
   it("computes arrival as lastUpdated + secondsToArrival", () => {
-    const raw = fixture as {
+    const raw = rawFixture as {
       results: {
         consideredStation: string;
         destinations: { messages: { secondsToArrival: string; lastUpdated: string }[] }[];
@@ -116,8 +117,17 @@ describe("parsePathFeed edge cases", () => {
       ["PATH", "808183"],
     ]);
   });
+});
 
-  it("throws when the top-level shape changes", () => {
-    expect(() => parsePathFeed({ stations: [] }, "HOB")).toThrow();
+describe("readPathFeed", () => {
+  it("accepts the recorded snapshot", () => {
+    expect(fixture.results).toHaveLength(13);
   });
+
+  it.each([{ stations: [] }, { results: null }, "<html>maintenance</html>", null])(
+    "rejects a body with the wrong top-level shape: %j",
+    (body) => {
+      expect(() => readPathFeed(body)).toThrow(/unexpected ridepath.json shape/);
+    },
+  );
 });

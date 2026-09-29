@@ -48,6 +48,21 @@ const RawPathFeed = z.object({
     }),
   ),
 });
+/** ridepath.json after its top-level shape has been checked; single predictions are not yet. */
+export type PathFeed = z.infer<typeof RawPathFeed>;
+
+/**
+ * Checks the top-level shape of a ridepath.json body. It runs inside the feed loader, so an
+ * HTTP 200 with the wrong shape (maintenance page, schema change) counts as an upstream
+ * failure: the cache keeps serving the last good copy instead of storing the bad one.
+ */
+export function readPathFeed(raw: unknown): PathFeed {
+  const result = RawPathFeed.safeParse(raw);
+  if (!result.success) {
+    throw new Error(`unexpected ridepath.json shape: ${result.error.issues[0]?.message ?? ""}`);
+  }
+  return result.data;
+}
 
 /**
  * ridepath.json timestamps look like "2026-09-28T20:15:06.504842-04:00". ECMAScript only
@@ -81,12 +96,11 @@ function describeLine(lineColor: string): { route: string; routeColor: string } 
 export type ParseResult = { arrivals: Arrival[]; skipped: number };
 
 /**
- * Extracts upcoming trains for one PATH station from the raw ridepath.json body.
+ * Extracts upcoming trains for one PATH station from a shape-checked ridepath.json body.
  * Malformed individual predictions are skipped (and counted) instead of failing the
  * whole station, because one bad row should not blank out the board.
  */
-export function parsePathFeed(raw: unknown, stationCode: string): ParseResult {
-  const feed = RawPathFeed.parse(raw);
+export function parsePathFeed(feed: PathFeed, stationCode: string): ParseResult {
   const station = feed.results.find((r) => r.consideredStation === stationCode);
   if (!station) return { arrivals: [], skipped: 0 };
 

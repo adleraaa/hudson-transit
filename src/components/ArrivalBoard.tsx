@@ -2,7 +2,7 @@
 
 import type { ArrivalsState } from "@/hooks/useArrivals";
 import type { Arrival, Station } from "@/lib/schema";
-import { formatClock, relativeLabel } from "@/lib/time";
+import { DEPARTED_GRACE_MS, formatClock, relativeLabel } from "@/lib/time";
 import { RouteBullet } from "./RouteBullet";
 
 type Props = {
@@ -81,8 +81,9 @@ function BoardBody({ state, now, onRetry }: Pick<Props, "state" | "now" | "onRet
   }
 
   const { board, refreshError } = state;
-  const upcoming = board.arrivals.filter((a) => a.arrivalTime >= now - 30_000);
+  const upcoming = board.arrivals.filter((a) => a.arrivalTime >= now - DEPARTED_GRACE_MS);
   const groups = groupByDirection(upcoming);
+  const missing = board.unavailableRoutes;
 
   return (
     <>
@@ -90,6 +91,12 @@ function BoardBody({ state, now, onRetry }: Pick<Props, "state" | "now" | "onRet
         Updated {formatClock(board.dataAsOf)}
         {board.stale && <span className="badge badge-warn">Cached data</span>}
       </p>
+      {missing.length > 0 && (
+        <p className="board-note">
+          No live data for {missing.join(", ")} trains right now (feed unavailable). Missing trains
+          here do not mean there is no service.
+        </p>
+      )}
       {refreshError && (
         <p className="board-note">Refresh failed ({refreshError}); showing the last update.</p>
       )}
@@ -107,7 +114,11 @@ function BoardBody({ state, now, onRetry }: Pick<Props, "state" | "now" | "onRet
       )}
 
       {groups.length === 0 ? (
-        <p className="board-message">No trains predicted in the next hour.</p>
+        <p className="board-message">
+          {missing.length > 0
+            ? "No predictions available from the feeds that are up."
+            : "No trains predicted in the next hour."}
+        </p>
       ) : (
         groups.map(([direction, arrivals]) => (
           <div key={direction} className="direction">

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { BoardSchema, type Board } from "@/lib/schema";
 
-/** Matches the server cache TTL; polling faster would just hit the cache. */
+/** At or above the 20 s server cache TTL (feeds.ts); polling faster would mostly hit the cache. */
 export const REFRESH_MS = 30_000;
 
 export type ArrivalsState =

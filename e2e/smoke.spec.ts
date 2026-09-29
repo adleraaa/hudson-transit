@@ -12,6 +12,7 @@ function board(stationId: string, stationName: string) {
     generatedAt: now,
     dataAsOf: now,
     stale: false,
+    unavailableRoutes: [],
     warnings: [],
     arrivals: [
       {

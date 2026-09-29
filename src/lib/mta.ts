@@ -4,6 +4,7 @@ import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 import type { transit_realtime } from "gtfs-realtime-bindings";
 import type { Arrival } from "./schema";
 import { getStop, SUBWAY_ROUTES, type SubwayComplex } from "./subway-data";
+import { DEPARTED_GRACE_MS } from "./time";
 
 type FeedMessage = transit_realtime.FeedMessage;
 type LongLike = number | { toNumber(): number } | null | undefined;
@@ -23,9 +24,6 @@ export function feedTimestamp(feed: FeedMessage): number | undefined {
   const seconds = toNumber(feed.header.timestamp as LongLike);
   return seconds ? seconds * 1000 : undefined;
 }
-
-/** A train that left up to this long ago may still be in the feed; hide it. */
-const DEPARTED_GRACE_MS = 30_000;
 
 /**
  * Returns the upcoming trains that stop at any platform of `complex`.

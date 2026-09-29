@@ -8,6 +8,13 @@ const clockFormat = new Intl.DateTimeFormat("en-US", {
   minute: "2-digit",
 });
 
+/**
+ * A train that left up to this long ago may still be listed by the feeds (or still be on a
+ * board that was fetched a moment ago). Within this window it is shown as "Now"; older is hidden.
+ * Used by the parser, the server-side trim and the client render, so they always agree.
+ */
+export const DEPARTED_GRACE_MS = 30_000;
+
 export function formatClock(epochMs: number): string {
   return clockFormat.format(epochMs);
 }
@@ -19,7 +26,7 @@ export function minutesUntil(arrivalTime: number, now: number): number {
 
 export function relativeLabel(arrivalTime: number, now: number): string {
   const diff = arrivalTime - now;
-  if (diff <= 30_000) return "Now";
+  if (diff <= DEPARTED_GRACE_MS) return "Now";
   if (diff < 60_000) return "<1 min";
   return `${minutesUntil(arrivalTime, now)} min`;
 }

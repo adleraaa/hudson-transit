@@ -6,6 +6,27 @@ export const PATH_URL = "https://www.panynj.gov/bin/portauthority/ridepath.json"
 export const MTA_FEEDS = ["", "-ace", "-bdfm", "-g", "-jz", "-nqrw", "-l", "-si"] as const;
 export type MtaFeed = (typeof MTA_FEEDS)[number];
 
+/**
+ * The feed(s) that carry each rider-facing route label used in data/subway-stations.json.
+ * "S" is ambiguous: the 42 St shuttle is in the 1-7 feed, the Rockaway Park shuttle (H) in
+ * A/C/E and the Franklin Av shuttle in B/D/F/M.
+ */
+const FEEDS_BY_ROUTE: Record<string, readonly MtaFeed[]> = {
+  ...Object.fromEntries(["1", "2", "3", "4", "5", "6", "7"].map((r) => [r, [""]])),
+  ...Object.fromEntries(["A", "C", "E"].map((r) => [r, ["-ace"]])),
+  ...Object.fromEntries(["B", "D", "F", "M"].map((r) => [r, ["-bdfm"]])),
+  ...Object.fromEntries(["N", "Q", "R", "W"].map((r) => [r, ["-nqrw"]])),
+  ...Object.fromEntries(["J", "Z"].map((r) => [r, ["-jz"]])),
+  G: ["-g"],
+  L: ["-l"],
+  SIR: ["-si"],
+  S: ["", "-ace", "-bdfm"],
+};
+
+export function feedsForRoute(route: string): readonly MtaFeed[] {
+  return FEEDS_BY_ROUTE[route] ?? [];
+}
+
 export function mtaFeedUrl(feed: MtaFeed): string {
   return `https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs${feed}`;
 }

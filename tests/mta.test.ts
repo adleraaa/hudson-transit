@@ -1,11 +1,9 @@
 import { readFileSync } from "node:fs";
-import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 import { describe, expect, it } from "vitest";
 import { decodeFeed, feedTimestamp, subwayArrivals, toNumber } from "@/lib/mta";
 import { ArrivalSchema } from "@/lib/schema";
 import { getComplex, SUBWAY_COMPLEXES } from "@/lib/subway-data";
-
-const { FeedMessage } = GtfsRealtimeBindings.transit_realtime;
+import { syntheticFeed } from "./synthetic-feed";
 
 function loadFixture(name: string) {
   const feed = decodeFeed(readFileSync(new URL(`./fixtures/${name}`, import.meta.url)));
@@ -14,24 +12,6 @@ function loadFixture(name: string) {
 
 const UNION_SQ = getComplex("602")!; // 14 St-Union Sq: 4/5/6, L, N/Q/R/W
 const TIMES_SQ = getComplex("611")!; // includes 42 St-Port Authority (A/C/E)
-
-/** Builds a feed through protobuf encode/decode so times come back as Long, like production. */
-function syntheticFeed(
-  trips: { routeId: string; stops: [stopId: string, epochSeconds: number][] }[],
-  headerSeconds = 1_790_000_000,
-) {
-  const message = FeedMessage.fromObject({
-    header: { gtfsRealtimeVersion: "1.0", timestamp: headerSeconds },
-    entity: trips.map((t, i) => ({
-      id: String(i),
-      tripUpdate: {
-        trip: { tripId: `trip-${i}`, routeId: t.routeId },
-        stopTimeUpdate: t.stops.map(([stopId, time]) => ({ stopId, arrival: { time } })),
-      },
-    })),
-  });
-  return decodeFeed(FeedMessage.encode(message).finish());
-}
 
 describe("toNumber", () => {
   it("accepts numbers, Long-like objects and nullish values", () => {

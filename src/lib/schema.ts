@@ -26,10 +26,22 @@ export const BoardSchema = z.object({
   arrivals: z.array(ArrivalSchema),
   /** When this server produced the response (epoch ms). */
   generatedAt: z.number().int(),
-  /** Oldest upstream fetch time among the feeds that went into this board (epoch ms). */
+  /**
+   * How current the data is (epoch ms). Subway: the oldest MTA feed header timestamp among
+   * the feeds serving this station, so a feed that stops advancing shows up here. PATH has
+   * no feed-level timestamp, so it is the time this server fetched ridepath.json.
+   */
   dataAsOf: z.number().int(),
-  /** True when at least one feed failed and cached data was served instead. */
+  /**
+   * True when the board may not be current: a refresh failed and cached data was served,
+   * or a subway feed's own timestamp is more than 2 minutes old.
+   */
   stale: z.boolean(),
+  /**
+   * Routes serving this station whose feed could not be loaded at all. Their trains are
+   * missing from `arrivals`, so an empty board must not be read as "no service".
+   */
+  unavailableRoutes: z.array(z.string()),
   /** Human-readable upstream problems; empty when everything was fresh. */
   warnings: z.array(z.string()),
 });
