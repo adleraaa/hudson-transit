@@ -17,6 +17,12 @@ Live: https://hudson-transit.vercel.app (Vercel, Hobby plan, deployed from `main
 
 Screenshots were captured from live data by `scripts/screenshot.ts` on 2026-09-28 around 8:55 PM ET.
 
+## How this was built
+
+This project was built with [Claude Code](https://claude.com/claude-code), an AI coding agent, on
+September 28, 2026 (10 of 10 commits carry a `Co-Authored-By: Claude` trailer). The numbers in this
+README come from the scripts and result files in this repository.
+
 ## Architecture
 
 ```
